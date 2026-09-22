@@ -5,10 +5,14 @@ import PersonForm from './components/Form/Person/PersonForm';
 import PeopleList from './components/List/People/PeopleList';
 import ExpenseForm from './components/Form/Expense/ExpenseForm';
 import ExpenseList from './components/List/Expenses/ExpenseList';
+import SettlementList from './components/List/Settlements/SettlementList';
+import { calculateSettlements } from './utils/calculateSettlements';
 
 export default function App() {
   const [people, setPeople] = useState<Person[]>([]);
   const [expenses, setExpenses] = useState<Expense[]>([]);
+
+  const settlements = calculateSettlements(people, expenses);
 
   const addPerson = (name: string) => {
     const newPerson: Person = {
@@ -43,7 +47,8 @@ export default function App() {
       <PersonForm onAddPerson={addPerson} />
       <PeopleList people={people} onRemovePerson={removePerson} />
       <ExpenseForm people={people} onAddExpense={addExpense} />
-      <ExpenseList expenses={expenses} people={people} onRemoveExpense={removeExpense}/>
+      <ExpenseList expenses={expenses} people={people} onRemoveExpense={removeExpense} />
+      <SettlementList settlements={settlements} />
     </>
   );
 }
