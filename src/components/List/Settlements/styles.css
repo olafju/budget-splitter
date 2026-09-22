@@ -1,0 +1,14 @@
+.settlement-list {
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+
+.settlement-list li {
+  list-style: none;
+  padding: 9px 12px;
+  border-radius: 6px;
+  background: #f3f4f6;
+  font-size: 14px;
+}

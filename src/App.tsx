@@ -1,122 +1,95 @@
-import { useState } from 'react'
-import heroImg from './assets/hero.png'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import './App.css'
+import { useState, useEffect } from 'react';
+import type { Person } from './types/Person';
+import type { Expense } from './types/Expense';
+import PersonForm from './components/Form/Person/PersonForm';
+import PeopleList from './components/List/People/PeopleList';
+import ExpenseForm from './components/Form/Expense/ExpenseForm';
+import ExpenseList from './components/List/Expenses/ExpenseList';
+import SettlementList from './components/List/Settlements/SettlementList';
+import { calculateSettlements } from './utils/calculateSettlements';
 
-function App() {
-  const [count, setCount] = useState(0)
+export default function App() {
+
+  const [people, setPeople] = useState<Person[]>(() => {
+    const savedPeople = localStorage.getItem("people");
+
+    return savedPeople ? JSON.parse(savedPeople) : [];
+  });
+
+  const [expenses, setExpenses] = useState<Expense[]>(() => {
+    const savedExpenses = localStorage.getItem('expenses');
+
+    return savedExpenses ? JSON.parse(savedExpenses) : [];
+  });
+
+  useEffect(() => {
+    localStorage.setItem('people', JSON.stringify(people));
+  }, [people]);
+
+  useEffect(() => {
+    localStorage.setItem('expenses', JSON.stringify(expenses));
+  }, [expenses]);
+
+  const settlements = calculateSettlements(people, expenses);
+
+  const addPerson = (name: string) => {
+    const newPerson: Person = {
+      id: crypto.randomUUID(),
+      name,
+    };
+
+    setPeople((prevPeople) => [...prevPeople, newPerson]);
+  };
+
+  const removePerson = (id: string) => {
+    setPeople((prevPeople) => prevPeople.filter((person) => person.id !== id));
+  };
+
+  const addExpense = (description: string, amount: number, paidById: string) => {
+    const newExpense: Expense = {
+      id: crypto.randomUUID(),
+      description,
+      amount,
+      paidById,
+    };
+
+    setExpenses((prevExpenses) => [...prevExpenses, newExpense]);
+  };
+
+  const removeExpense = (id: string) => {
+    setExpenses((prevExpenses) => prevExpenses.filter((expense) => expense.id !== id));
+  };
 
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.tsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
+    <main className="app">
+      <header className="app-header">
+        <h1>Budget Splitter</h1>
+        <p>Split shared expenses quickly and easily.</p>
+      </header>
 
-      <div className="ticks"></div>
+      <div className="dashboard">
+        <section className="panel">
+          <h2>Participants</h2>
 
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
+          <PersonForm onAddPerson={addPerson} />
 
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
-  )
+          <PeopleList people={people} onRemovePerson={removePerson} />
+        </section>
+
+        <section className="panel">
+          <h2>Expenses</h2>
+
+          <ExpenseForm people={people} onAddExpense={addExpense} />
+
+          <ExpenseList expenses={expenses} people={people} onRemoveExpense={removeExpense} />
+        </section>
+
+        <section className="panel settlements-panel">
+          <h2>Settlements</h2>
+
+          <SettlementList settlements={settlements} />
+        </section>
+      </div>
+    </main>
+  );
 }
-
-export default App

@@ -1,75 +1,88 @@
-# React + TypeScript + Vite
+# Budget Splitter
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Budget Splitter is a simple React application for tracking shared expenses and calculating who owes whom.
 
-Currently, two official plugins are available:
+The application allows users to add participants, register expenses, assign expenses to specific people, and automatically calculate the final settlements between all participants.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Features
 
-## React Compiler
+- Add and remove participants
+- Add and remove expenses
+- Assign expenses to the person who paid
+- Automatically calculate who owes whom
+- Store participants and expenses in localStorage
+- Automated tests with Vitest and React Testing Library
+- Continuous Integration with GitHub Actions
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Technologies
 
-## Expanding the ESLint configuration
+- React
+- TypeScript
+- Vite
+- Vitest
+- React Testing Library
+- GitHub Actions
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Installation
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+Clone the repository and install dependencies:
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
+```bash
+npm install
 ```
 
-You can also install [eslint-plugin-react-x](https://npmx.dev/package/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://npmx.dev/package/eslint-plugin-react-dom) for React-specific lint rules:
+## Running the application
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+Start the development server:
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
+```bash
+npm run dev
 ```
+
+The application will be available at:
+
+```text
+http://localhost:5173
+```
+
+## Running tests
+
+Run all automated tests:
+
+```bash
+npm run test:run
+```
+
+## Build
+
+Create a production build:
+
+```bash
+npm run build
+```
+
+## Testing
+
+The project contains automated tests that verify:
+
+- settlement calculation for two participants
+- settlement calculation for three participants
+- correct behavior when participants paid equally
+- adding a participant through the form
+- preventing empty participant names
+
+## Continuous Integration
+
+GitHub Actions runs automatically on every `push` and `pull_request`.
+
+The pipeline runs in the following order:
+
+```text
+build → test
+```
+
+The test job runs only after the build has completed successfully.
+
+## Data persistence
+
+Participants and expenses are stored in the browser's `localStorage`, so the data remains available after refreshing the page.
