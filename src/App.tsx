@@ -43,12 +43,35 @@ export default function App() {
   };
 
   return (
-    <>
-      <PersonForm onAddPerson={addPerson} />
-      <PeopleList people={people} onRemovePerson={removePerson} />
-      <ExpenseForm people={people} onAddExpense={addExpense} />
-      <ExpenseList expenses={expenses} people={people} onRemoveExpense={removeExpense} />
-      <SettlementList settlements={settlements} />
-    </>
+    <main className="app">
+      <header className="app-header">
+        <h1>Budget Splitter</h1>
+        <p>Split shared expenses quickly and easily.</p>
+      </header>
+
+      <div className="dashboard">
+        <section className="panel">
+          <h2>Participants</h2>
+
+          <PersonForm onAddPerson={addPerson} />
+
+          <PeopleList people={people} onRemovePerson={removePerson} />
+        </section>
+
+        <section className="panel">
+          <h2>Expenses</h2>
+
+          <ExpenseForm people={people} onAddExpense={addExpense} />
+
+          <ExpenseList expenses={expenses} people={people} onRemoveExpense={removeExpense} />
+        </section>
+
+        <section className="panel settlements-panel">
+          <h2>Settlements</h2>
+
+          <SettlementList settlements={settlements} />
+        </section>
+      </div>
+    </main>
   );
 }

@@ -1,4 +1,5 @@
 import type { Person } from '../../../types/Person';
+import './styles.css';
 
 interface PeopleListProps {
   people: Person[];
@@ -7,16 +8,15 @@ interface PeopleListProps {
 
 function PeopleList({ people, onRemovePerson }: PeopleListProps) {
   return (
-    <>
-      <ul>
-        {people.map((person) => (
-          <>
-            <li key={person.id}>{person.name}</li>
-            <button onClick={() => onRemovePerson(person.id)}> Remove </button>
-          </>
-        ))}
-      </ul>
-    </>
+    <div className="people-list">
+      {people.map((person) => (
+        <div className="person-row" key={person.id}>
+          <span>{person.name}</span>
+
+          <button onClick={() => onRemovePerson(person.id)}>Remove</button>
+        </div>
+      ))}
+    </div>
   );
 }
 

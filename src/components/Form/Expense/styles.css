@@ -1,0 +1,26 @@
+.expense-form {
+  display: grid;
+  grid-template-columns: 1fr 110px;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.expense-form input,
+.expense-form select {
+  min-width: 0;
+  padding: 8px 10px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+}
+
+.expense-form select {
+  grid-column: 1 / 2;
+}
+
+.expense-form button {
+  border: 0;
+  border-radius: 6px;
+  background: #111827;
+  color: white;
+  cursor: pointer;
+}

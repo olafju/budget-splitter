@@ -1,5 +1,6 @@
 import { useState, type SubmitEvent } from 'react';
 import type { Person } from '../../../types/Person';
+import "./styles.css";
 
 interface ExpenseFormProps {
   people: Person[];
@@ -24,7 +25,7 @@ function ExpenseForm({ people, onAddExpense }: ExpenseFormProps) {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form className='expense-form' onSubmit={handleSubmit}>
       <input
         type="text"
         placeholder="Expense description"

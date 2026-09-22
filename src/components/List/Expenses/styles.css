@@ -1,0 +1,40 @@
+.expense-list {
+  margin: 0;
+  padding: 0;
+}
+
+.expense-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 9px 0;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.expense-row:last-child {
+  border-bottom: 0;
+}
+
+.expense-row li {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  list-style: none;
+  font-size: 14px;
+}
+
+.expense-row li span {
+  color: #6b7280;
+  font-size: 12px;
+}
+
+.expense-row button {
+  padding: 4px 8px;
+  border: 0;
+  border-radius: 5px;
+  background: #fee2e2;
+  color: #b91c1c;
+  cursor: pointer;
+  font-size: 12px;
+}

@@ -1,0 +1,32 @@
+.people-list {
+  margin: 0;
+  padding: 0;
+}
+
+.person-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px 0;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.person-row:last-child {
+  border-bottom: 0;
+}
+
+.person-row li {
+  list-style: none;
+  font-size: 14px;
+}
+
+.person-row button {
+  padding: 4px 8px;
+  border: 0;
+  border-radius: 5px;
+  background: #fee2e2;
+  color: #b91c1c;
+  cursor: pointer;
+  font-size: 12px;
+}
