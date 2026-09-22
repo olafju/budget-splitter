@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import type { Person } from './types/Person';
 import type { Expense } from './types/Expense';
 import PersonForm from './components/Form/Person/PersonForm';
@@ -9,8 +9,26 @@ import SettlementList from './components/List/Settlements/SettlementList';
 import { calculateSettlements } from './utils/calculateSettlements';
 
 export default function App() {
-  const [people, setPeople] = useState<Person[]>([]);
-  const [expenses, setExpenses] = useState<Expense[]>([]);
+
+  const [people, setPeople] = useState<Person[]>(() => {
+    const savedPeople = localStorage.getItem("people");
+
+    return savedPeople ? JSON.parse(savedPeople) : [];
+  });
+
+  const [expenses, setExpenses] = useState<Expense[]>(() => {
+    const savedExpenses = localStorage.getItem('expenses');
+
+    return savedExpenses ? JSON.parse(savedExpenses) : [];
+  });
+
+  useEffect(() => {
+    localStorage.setItem('people', JSON.stringify(people));
+  }, [people]);
+
+  useEffect(() => {
+    localStorage.setItem('expenses', JSON.stringify(expenses));
+  }, [expenses]);
 
   const settlements = calculateSettlements(people, expenses);
 
