@@ -1,10 +1,14 @@
-import { useState } from "react";
-import type {Person} from "./types/Person"
-import PersonForm from "./components/Form/Person/PersonForm";
-import PeopleList from "./components/List/People/PeopleList";
+import { useState } from 'react';
+import type { Person } from './types/Person';
+import type { Expense } from './types/Expense';
+import PersonForm from './components/Form/Person/PersonForm';
+import PeopleList from './components/List/People/PeopleList';
+import ExpenseForm from './components/Form/Expense/ExpenseForm';
+import ExpenseList from './components/List/Expenses/ExpenseList';
 
 export default function App() {
   const [people, setPeople] = useState<Person[]>([]);
+  const [expenses, setExpenses] = useState<Expense[]>([]);
 
   const addPerson = (name: string) => {
     const newPerson: Person = {
@@ -17,12 +21,29 @@ export default function App() {
 
   const removePerson = (id: string) => {
     setPeople((prevPeople) => prevPeople.filter((person) => person.id !== id));
-  }
+  };
+
+  const addExpense = (description: string, amount: number, paidById: string) => {
+    const newExpense: Expense = {
+      id: crypto.randomUUID(),
+      description,
+      amount,
+      paidById,
+    };
+
+    setExpenses((prevExpenses) => [...prevExpenses, newExpense]);
+  };
+
+  const removeExpense = (id: string) => {
+    setExpenses((prevExpenses) => prevExpenses.filter((expense) => expense.id !== id));
+  };
 
   return (
     <>
-      <PersonForm onAddPerson={addPerson}/>
-      <PeopleList people={people} onRemovePerson={removePerson}/>
+      <PersonForm onAddPerson={addPerson} />
+      <PeopleList people={people} onRemovePerson={removePerson} />
+      <ExpenseForm people={people} onAddExpense={addExpense} />
+      <ExpenseList expenses={expenses} people={people} onRemoveExpense={removeExpense}/>
     </>
-  )
+  );
 }
